@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "App real",
+  "main": "index.ts",
+  "author": "MIG",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "dev": "nodemon index.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.1.3",
+    "express": "^4.18.2"
+  }
+}
