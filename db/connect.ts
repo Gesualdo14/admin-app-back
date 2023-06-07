@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import SaleModel from "../models/sale"
+import ProductModel from "../models/product"
 
 async function connectDB() {
   if (!process.env.MONGODB_URL) {
@@ -8,10 +9,10 @@ async function connectDB() {
   try {
     await mongoose.connect(process.env.MONGODB_URL)
     console.log("Conexión exitosa con Mongo DB")
-    // await SaleModel.create({
-    //   operation_date: new Date(),
-    //   user: "647a080855cc852e302467aa",
-    //   total_amount: 5000,
+    // await ProductModel.create({
+    //   name: "Mouse",
+    //   code: "HSKJD76",
+    //   supplier_cost: 43.12,
     // })
   } catch (error) {
     console.log("Hubo un error al conectarnos a la BBDD", error)

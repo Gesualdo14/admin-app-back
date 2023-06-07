@@ -10,6 +10,7 @@ export const getAll = async (req: any, res: Response) => {
     res.status(500).json({ ok: false, message: "Error del servidor" })
   }
 }
+
 export const getById = async (req: any, res: Response) => {
   const { id } = req.params
   try {
@@ -26,6 +27,7 @@ export const create = async (req: any, res: Response) => {
   const createdClient = await ClientModel.create(req.body)
   res.status(201).json({ ok: true, data: createdClient })
 }
+
 export const update = async (req: any, res: Response) => {
   const { id } = req.params
   const updatedClient = await ClientModel.findByIdAndUpdate(id, req.body)
