@@ -4,7 +4,7 @@ import { validateUser } from "../middlewares/auth"
 
 const router = express.Router()
 
-router.use(validateUser())
+router.use(validateUser() as any)
 
 router.get("/:code", getByCode)
 
