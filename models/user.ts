@@ -5,6 +5,7 @@ const userSchema = new Schema({
   lastname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   login_code: { type: String, required: true, length: 6 },
+  imageUrl: String,
   roles: {
     type: {
       admin: Boolean,
