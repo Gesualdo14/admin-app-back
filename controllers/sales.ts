@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { Response } from "express"
 import SaleModel from "../models/sale"
 import ClientModel from "../models/client"
 import { AuthRequest } from "../schemas/auth"
@@ -14,6 +14,7 @@ export const getAll = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ ok: false, message: "Error del servidor" })
   }
 }
+
 export const getById = async (req: AuthRequest, res: Response) => {
   const { id } = req.params
   try {
