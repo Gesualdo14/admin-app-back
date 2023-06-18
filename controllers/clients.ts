@@ -35,7 +35,9 @@ export const getByDocument = async (req: Request, res: Response) => {
 }
 
 export const create = async (req: Request<any, any, Client>, res: Response) => {
-  const createdClient = await ClientModel.create(req.body)
+  const createdClient = await ClientModel.create({
+    ...req.body,
+  })
   res.status(201).json({ ok: true, data: createdClient })
 }
 

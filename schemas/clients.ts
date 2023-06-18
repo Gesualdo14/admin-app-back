@@ -12,6 +12,8 @@ export const ClientSchema = z.object({
   firstname: z.string().min(3),
   lastname: z.string().min(3),
   email: z.string().email("Email inválido"),
+  phoneCode: z.string().default("593"),
+  phoneNumber: z.string().length(10),
   document_type: z.enum(DOC_TYPES),
   document_value: z.string().min(4),
 })

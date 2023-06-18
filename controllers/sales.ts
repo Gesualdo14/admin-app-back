@@ -27,11 +27,15 @@ export const getById = async (req: AuthRequest, res: Response) => {
 }
 
 export const create = async (req: AuthRequest<Sale>, res: Response) => {
-  const { operation_date, total_amount, products, payment_methods, client } =
-    req.body
+  const { products, payment_methods, client } = req.body
+
+  const total_amount = payment_methods.reduce(
+    (acc, curr) => acc + curr.amount,
+    0
+  )
 
   const createdSale = await SaleModel.create({
-    operation_date,
+    operation_date: new Date(),
     total_amount,
     products,
     payment_methods,

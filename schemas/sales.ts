@@ -29,8 +29,6 @@ const salePaymentMethodSchema = z.object({
 })
 
 export const saleSchema = z.object({
-  operation_date: z.string(),
-  total_amount: z.number(),
   products: z.array(saleProductSchema),
   payment_methods: z.array(salePaymentMethodSchema),
   client: z.custom(validateObjectId),

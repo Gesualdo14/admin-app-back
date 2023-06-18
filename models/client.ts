@@ -4,6 +4,8 @@ const clientSchema = new Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  phoneCode: { type: String },
+  phoneNumber: { type: String },
   document_type: { type: String, required: true },
   document_value: { type: String, required: true },
   sales: {
