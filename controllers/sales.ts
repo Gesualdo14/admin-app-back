@@ -30,7 +30,7 @@ export const create = async (req: AuthRequest<Sale>, res: Response) => {
   const { products, payment_methods, client } = req.body
 
   const total_amount = payment_methods.reduce(
-    (acc, curr) => acc + curr.amount,
+    (acc: number, curr: any) => acc + curr.amount,
     0
   )
 
