@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon index",
     "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node ./dist/index.js"
+    "start": "tsc && node --experimental-specifier-resolution=node ./dist/index.js"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
