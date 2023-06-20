@@ -2,14 +2,14 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "App real",
-  "main": "index",
+  "main": "index.ts",
   "author": "MIG",
   "license": "MIT",
   "private": false,
   "scripts": {
     "dev": "nodemon index",
     "build": "tsc",
-    "start": "tsc && node --experimental-specifier-resolution=node ./dist/index.js"
+    "start": "tsc && node ./dist/index.js"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
