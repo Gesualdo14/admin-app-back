@@ -27,7 +27,7 @@ export const getAll = async (req: AuthRequest, res: Response) => {
     }
 
     const sales = await SaleModel.find(filter)
-      .populate("client", "firstname")
+      .populate("client", "firstname lastname")
       .sort({ _id: -1 })
 
     res.status(200).json({ ok: true, data: sales })
