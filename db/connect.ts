@@ -10,7 +10,7 @@ async function connectDB() {
   try {
     await mongoose.connect(process.env.MONGODB_URL)
     console.log("Conexión exitosa con Mongo DB")
-    await SaleModel.deleteMany()
+    // await SaleModel.deleteMany()
     // const clients = await ClientModel.find()
     // for (const client of clients) {
     //   await ClientModel.findByIdAndUpdate(client._id, {
