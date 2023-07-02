@@ -23,14 +23,15 @@ const saleProductSchema = z.object({
 const salePaymentMethodSchema = z.object({
   method: z.enum(PAYMENT_METHOD_TYPES),
   amount: z.number(),
-  time_unit: TIME_UNITS,
-  time_value: z.number(),
+  time_unit: TIME_UNITS.nullish(),
+  time_value: z.number().nullish(),
 })
 
 export const saleSchema = z.object({
   products: z.array(saleProductSchema),
   payment_methods: z.array(salePaymentMethodSchema),
   client: z.custom(validateObjectId),
+  referalDoc: z.string().nullish(),
 })
 
 export const SaleCreationSchema = z.object({

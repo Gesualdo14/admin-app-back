@@ -9,6 +9,7 @@ const clientSchema = new Schema({
   document_type: { type: String, required: true },
   document_value: { type: String, required: true },
   searchField: { type: String, required: true },
+  comissions: Number,
   sales: {
     count: Number,
     amount: Number,

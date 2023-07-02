@@ -81,7 +81,7 @@ export const getById = async (req: AuthRequest, res: Response) => {
 }
 
 export const create = async (req: AuthRequest<Sale>, res: Response) => {
-  const { products, payment_methods, client } = req.body
+  const { products, payment_methods, client, referalDoc } = req.body
 
   const total_amount = products.reduce(
     (acc: number, curr) => acc + curr.unit_price * curr.qty,
@@ -99,6 +99,7 @@ export const create = async (req: AuthRequest<Sale>, res: Response) => {
     gathered,
     products,
     payment_methods,
+    referalDoc,
     client,
     user: req.user?.sub,
     creation: genCreationDate(),
@@ -107,6 +108,13 @@ export const create = async (req: AuthRequest<Sale>, res: Response) => {
   await ClientModel.findByIdAndUpdate(createdSale.client, {
     $inc: { "sales.count": 1, "sales.amount": total_amount },
   })
+
+  if (!!referalDoc) {
+    await ClientModel.findOneAndUpdate(
+      { document_value: referalDoc },
+      { $inc: { comissions: 1 } }
+    )
+  }
 
   for (const product of products) {
     await ProductModel.findOneAndUpdate(

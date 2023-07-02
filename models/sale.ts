@@ -3,8 +3,8 @@ import { Schema, Types, model } from "mongoose"
 export const paymentMethodSchema = new Schema({
   method: { type: String },
   amount: { type: Number, required: true },
-  time_unit: { type: String, required: true },
-  time_value: { type: Number, required: true },
+  time_unit: { type: String },
+  time_value: { type: Number },
 })
 
 const saleSchema = new Schema(
@@ -30,6 +30,7 @@ const saleSchema = new Schema(
       month: Number,
       year: Number,
     },
+    referalDoc: String,
   },
   { timestamps: true }
 )
