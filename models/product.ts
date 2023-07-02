@@ -8,6 +8,7 @@ export const productSchema = new Schema({
   micro: { type: Number, default: 5.55, required: true },
   salvament_margin: { type: Number, default: 0.25, required: true },
   profit_margin: { type: Number, default: 0.15, required: true },
+  discount: { type: Number, default: 0, required: true },
   sales: {
     count: Number,
     amount: Number,
