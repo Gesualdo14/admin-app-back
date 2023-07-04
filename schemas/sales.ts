@@ -30,6 +30,7 @@ export const saleSchema = z.object({
   products: z.array(saleProductSchema),
   payment_methods: z.array(salePaymentMethodSchema),
   client: z.custom(validateObjectId),
+  comissions: z.number().nullish(),
   referalDoc: z.string().nullish(),
 })
 
