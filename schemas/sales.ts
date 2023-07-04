@@ -16,7 +16,6 @@ const TIME_UNITS = z.enum(["Días", "Meses", "Años"])
 const saleProductSchema = z.object({
   code: z.string(),
   name: z.string().optional(),
-  qty: z.number(),
   unit_price: z.number(),
   discount: z.number().optional(),
 })

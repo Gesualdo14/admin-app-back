@@ -16,7 +16,6 @@ const saleSchema = new Schema(
       {
         code: String,
         name: String,
-        qty: Number,
         iva: Number,
         unit_price: Number,
         discount: { type: Number, default: 0 },

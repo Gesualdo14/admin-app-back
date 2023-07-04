@@ -2,8 +2,17 @@ import { Response } from "express"
 import ProductModel from "../models/product"
 
 export const getAll = async (req: any, res: Response) => {
-  const { searchText } = req.query
-  const filter = !searchText ? {} : { name: new RegExp(searchText, "i") }
+  const { searchText, toSell } = req.query
+  const regexSearch = new RegExp(searchText, "i")
+
+  const filter: any = !searchText
+    ? {}
+    : { $or: [{ name: regexSearch }, { code: regexSearch }] }
+
+  if (toSell === "true") {
+    filter.sold = false
+  }
+
   const products = await ProductModel.find(filter)
 
   res.status(200).json({ ok: true, data: products })

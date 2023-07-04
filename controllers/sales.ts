@@ -84,7 +84,7 @@ export const create = async (req: AuthRequest<Sale>, res: Response) => {
   const { products, payment_methods, client, referalDoc } = req.body
 
   const total_amount = products.reduce(
-    (acc: number, curr) => acc + curr.unit_price * curr.qty,
+    (acc: number, curr) => acc + curr.unit_price,
     0
   )
 
@@ -117,15 +117,7 @@ export const create = async (req: AuthRequest<Sale>, res: Response) => {
   }
 
   for (const product of products) {
-    await ProductModel.findOneAndUpdate(
-      { code: product.code },
-      {
-        $inc: {
-          "sales.count": 1,
-          "sales.amount": product.qty * product.unit_price,
-        },
-      }
-    )
+    await ProductModel.findOneAndUpdate({ code: product.code }, { sold: true })
   }
   res.status(201).json({ ok: true, data: createdSale })
 }

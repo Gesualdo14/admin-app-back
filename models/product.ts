@@ -9,6 +9,7 @@ export const productSchema = new Schema({
   salvament_margin: { type: Number, default: 0.25, required: true },
   profit_margin: { type: Number, default: 0.15, required: true },
   discount: { type: Number, default: 0, required: true },
+  sold: { type: Boolean, default: false },
   sales: {
     count: Number,
     amount: Number,
