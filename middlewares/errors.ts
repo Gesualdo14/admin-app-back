@@ -43,7 +43,7 @@ export const handleErrors = (
 
   if (err instanceof Error) {
     logger(err, "unknown", req)
-    res.status(500).json({ ok: false, message: "Error del servidor" })
+    res.status(500).json({ ok: false, message: err.message })
   }
 
   next(err)
