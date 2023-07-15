@@ -1,30 +1,77 @@
-import { Response } from "express"
 import ProductModel from "../models/product"
+import { MyRequest, MyResponse } from "../schemas/auth"
+import { GetAllQueryParams } from "../schemas/products"
+import { Product } from "../../frontend/schemas/SaleSchema"
 
-export const getAll = async (req: any, res: Response) => {
+type GetAllFilter = {
+  $or?: [{ name: RegExp }, { code: RegExp }]
+  sold?: boolean
+}
+
+export const getAll = async (
+  req: MyRequest<null, null, GetAllQueryParams>,
+  res: MyResponse
+) => {
   const { searchText, toSell } = req.query
-  const regexSearch = new RegExp(searchText, "i")
 
-  const filter: any = !searchText
-    ? {}
-    : { $or: [{ name: regexSearch }, { code: regexSearch }] }
+  let filter: GetAllFilter = {}
+  const isSearching = !!searchText
+  if (isSearching) {
+    const regexSearch = new RegExp(searchText, "i")
+    filter = { $or: [{ name: regexSearch }, { code: regexSearch }] }
+  }
 
   if (toSell === "true") {
     filter.sold = false
   }
 
   const products = await ProductModel.find(filter)
+    .sort({ _id: -1 })
+    .limit(isSearching ? 100 : 10)
 
   res.status(200).json({ ok: true, data: products })
 }
 
-export const getByCode = async (req: any, res: Response) => {
-  const { code } = req.params
-  try {
-    const product = await ProductModel.findOne({ code })
+export const getById = async (
+  req: MyRequest<null, { id: string }>,
+  res: MyResponse
+) => {
+  const { id } = req.params
 
-    res.status(200).json({ ok: true, data: product })
-  } catch (error) {
-    res.status(500).json({ ok: false, message: "Error del servidor" })
-  }
+  const product = await ProductModel.findById(id)
+
+  res.status(200).json({ ok: true, data: product })
+}
+
+export const getByCode = async (
+  req: MyRequest<null, { code: string }>,
+  res: MyResponse
+) => {
+  const { code } = req.params
+
+  const product = await ProductModel.findOne({ code })
+
+  res.status(200).json({ ok: true, data: product })
+}
+
+export const create = async (req: MyRequest<Product>, res: MyResponse) => {
+  const createdProduct = await ProductModel.create(req.body)
+  res.status(201).json({
+    ok: true,
+    message: "Producto creado con éxito",
+    data: createdProduct,
+  })
+}
+
+export const update = async (
+  req: MyRequest<Product, { id: string }>,
+  res: MyResponse
+) => {
+  const { id } = req.params
+  const updatedProduct = await ProductModel.findByIdAndUpdate(id, req.body)
+  res.status(201).json({
+    ok: true,
+    message: "Producto actualizado con éxito",
+    data: updatedProduct,
+  })
 }

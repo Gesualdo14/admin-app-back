@@ -1,9 +1,11 @@
 import "dotenv/config"
+import "express-async-errors"
 import express from "express"
 import routes from "./routes/index"
 import connectDB from "./db/connect"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import { handleErrors } from "./middlewares/errors"
 
 const app = express()
 connectDB()
@@ -17,6 +19,8 @@ app.use(
   })
 )
 app.use("/api", routes)
+
+app.use(handleErrors)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {

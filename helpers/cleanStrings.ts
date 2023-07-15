@@ -1,3 +1,5 @@
+// import { MyError } from "../schemas/errors"
+
 export const cleanStrings = (strings: string[]) => {
   const cleanedStrings = strings.map((string) =>
     string
@@ -6,5 +8,8 @@ export const cleanStrings = (strings: string[]) => {
       .toLowerCase()
       .trim()
   )
+  // if (cleanedStrings.length > 0) {
+  //   throw new MyError("Todo lo agarra el express-async-errors", 406)
+  // }
   return cleanedStrings.join(" ").trim()
 }

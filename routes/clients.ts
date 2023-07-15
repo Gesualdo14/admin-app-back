@@ -1,22 +1,20 @@
 import express from "express"
-import {
-  getAll,
-  create,
-  getById,
-  getByDocument,
-  update,
-} from "../controllers/clients"
+import * as ctrl from "../controllers/clients"
 import { validateUser } from "../middlewares/auth"
 import { validateRequest } from "../middlewares/validateRequest"
-import { ClientCreationSchema, ClientEditionSchema } from "../schemas/clients"
+import * as sch from "../schemas/clients"
 
 const router = express.Router()
 router.use(validateUser())
 
-router.get("/", getAll)
-router.get("/:id", getById)
-router.get("/document/:document", getByDocument)
-router.post("/", validateRequest(ClientCreationSchema), create)
-router.put("/:id", validateRequest(ClientEditionSchema), update)
+router.get("/", validateRequest(sch.GetAllSchema), ctrl.getAll)
+router.get("/:id", validateRequest(sch.GetByIdSchema), ctrl.getById)
+router.get(
+  "/document/:document",
+  validateRequest(sch.GetByDocumentSchema),
+  ctrl.getByDocument
+)
+router.post("/", validateRequest(sch.CreationSchema), ctrl.create)
+router.put("/:id", validateRequest(sch.EditionSchema), ctrl.update)
 
 export default router

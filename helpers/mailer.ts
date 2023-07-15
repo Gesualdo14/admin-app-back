@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer"
+import { MyError } from "../schemas/errors"
 
 let transporter = nodemailer.createTransport({
   host: "smtp.office365.com",
@@ -27,12 +28,7 @@ const sendEmail = async ({ to, subject, html }: EmailParams) => {
     console.log({ result })
     return { ok: true, message: "Excelente, mail enviado con éxito!" }
   } catch (error) {
-    console.log({ error })
-    return {
-      ok: false,
-      message: "Hubo un problema al enviar el email",
-      err: error,
-    }
+    throw new MyError("Error al enviar email", 500, error)
   }
 }
 

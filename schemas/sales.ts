@@ -1,5 +1,5 @@
 import { z } from "zod"
-import validateObjectId from "../helpers/validateObjectId"
+import { isValidObjectId } from "mongoose"
 
 const PAYMENT_METHOD_TYPES = [
   "Sin utilización Sist. Financiero",
@@ -29,13 +29,17 @@ const salePaymentMethodSchema = z.object({
 export const saleSchema = z.object({
   products: z.array(saleProductSchema),
   payment_methods: z.array(salePaymentMethodSchema),
-  client: z.custom(validateObjectId),
+  client: z.custom(isValidObjectId),
   comissions: z.number().nullish(),
   referalDoc: z.string().nullish(),
 })
 
-export const SaleCreationSchema = z.object({
+export const CreationSchema = z.object({
   body: saleSchema,
+})
+
+export const GetByIdSchema = z.object({
+  params: z.object({ id: z.custom(isValidObjectId, "ID inválido") }),
 })
 
 export type Sale = z.infer<typeof saleSchema>

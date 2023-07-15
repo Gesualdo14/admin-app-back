@@ -1,7 +1,7 @@
 import { Response } from "express"
 import SaleModel from "../models/sale"
 import ClientModel from "../models/client"
-import { AuthRequest } from "../schemas/auth"
+import { MyRequest, User } from "../schemas/auth"
 import { Sale } from "../schemas/sales"
 import genCreationDate from "../helpers/genCreationDate"
 import ProductModel from "../models/product"
@@ -9,17 +9,22 @@ import { Types } from "mongoose"
 
 const { ObjectId } = Types
 
-type Filter = {
+type GetAllFilter = {
   user?: string | undefined
   "creation.month"?: number
   "creation.year"?: number
 }
 
-export const getAll = async (req: AuthRequest, res: Response) => {
+export const getAll = async (
+  req: MyRequest<null, null, { month: string; year: string }>,
+  res: Response
+) => {
   const { month, year } = req.query
 
+  const { sub, roles } = req.user as User // Yo se que si llegó hasta acá, hay un user
+
   try {
-    const filter: Filter = req.user?.roles.admin ? {} : { user: req.user?.sub }
+    const filter: GetAllFilter = roles.admin ? {} : { user: sub }
 
     if (!!month) {
       filter["creation.month"] = +month
@@ -36,16 +41,15 @@ export const getAll = async (req: AuthRequest, res: Response) => {
   }
 }
 
-export const getSummary = async (req: AuthRequest, res: Response) => {
+export const getSummary = async (req: MyRequest, res: Response) => {
   try {
-    // const filter = req.user?.roles.admin ? {} : { user: req.user?.sub }
-
-    const userId = new ObjectId(req.user?.sub as string)
+    const { roles, sub } = req.user as User
+    const filter = roles.admin ? {} : { user: new ObjectId(sub) }
 
     const sales = await SaleModel.aggregate([
       {
-        $match: { user: userId },
-      }, // FIltrar la información
+        $match: filter,
+      }, // Filtrar la información
       {
         $group: {
           _id: { month: "$creation.month", year: "$creation.year" },
@@ -56,12 +60,11 @@ export const getSummary = async (req: AuthRequest, res: Response) => {
       }, // Sumarizarla por mes
       {
         $sort: {
-          _id: 1,
+          "_id.year": 1,
+          "_id.month": 1,
         },
       },
     ])
-
-    console.log({ sales })
 
     res.status(200).json({ ok: true, data: sales })
   } catch (error) {
@@ -69,7 +72,7 @@ export const getSummary = async (req: AuthRequest, res: Response) => {
   }
 }
 
-export const getById = async (req: AuthRequest, res: Response) => {
+export const getById = async (req: MyRequest, res: Response) => {
   const { id } = req.params
   try {
     const sale = await SaleModel.findById(id)
@@ -80,7 +83,7 @@ export const getById = async (req: AuthRequest, res: Response) => {
   }
 }
 
-export const create = async (req: AuthRequest<Sale>, res: Response) => {
+export const create = async (req: MyRequest<Sale>, res: Response) => {
   const { products, payment_methods, client, referalDoc, comissions } = req.body
 
   const total_amount = products.reduce(
