@@ -25,6 +25,7 @@ export const handleErrors = (
   }
   if (err instanceof JsonWebTokenError || err instanceof TokenExpiredError) {
     console.log("JWT ERROR")
+    logger(err, "jwt", req)
     return res.status(401).json({ ok: false, message: err.message })
   }
   if (err instanceof MongooseError) {
