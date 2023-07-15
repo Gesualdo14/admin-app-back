@@ -34,6 +34,7 @@ export const getAll = async (
     const sales = await SaleModel.find(filter)
       .populate("client", "firstname lastname")
       .sort({ _id: -1 })
+      .limit(!!month ? 100 : 10)
 
     res.status(200).json({ ok: true, data: sales })
   } catch (error) {
