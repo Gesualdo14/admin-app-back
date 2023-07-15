@@ -1,7 +1,6 @@
 import ProductModel from "../models/product"
 import { MyRequest, MyResponse } from "../schemas/auth"
-import { GetAllQueryParams } from "../schemas/products"
-import { Product } from "../../frontend/schemas/SaleSchema"
+import { GetAllQueryParams, Product } from "../schemas/products"
 
 type GetAllFilter = {
   $or?: [{ name: RegExp }, { code: RegExp }]

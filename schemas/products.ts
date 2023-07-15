@@ -41,3 +41,4 @@ export const GetByIdSchema = z.object({
 })
 
 export type GetAllQueryParams = z.infer<typeof GetAllQueryParams>
+export type Product = z.infer<typeof ProductSchema>
