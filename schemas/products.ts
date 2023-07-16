@@ -6,12 +6,15 @@ export const ProductSchema = z.object({
   name: z.string(),
   code: z.string(),
   supplier_cost: z.number(),
-  iva: z.number(),
-  discount: z.number(),
-  sold: z.boolean().optional(),
+  iva: z.number({
+    invalid_type_error: "El IVA debe ser un número",
+    required_error: "El IVA es requerido",
+  }),
+  discount: z.number({ invalid_type_error: "El descuento debe ser un número" }),
   micro: z.number(),
   salvament_margin: z.number(),
   profit_margin: z.number(),
+  sold: z.boolean().optional(),
 })
 
 const GetAllQueryParams = z.object({

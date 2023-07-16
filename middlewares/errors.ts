@@ -1,13 +1,19 @@
 import { NextFunction, Response } from "express"
 import { MyRequest } from "../schemas/auth"
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken"
-import { MongooseError } from "mongoose"
+import mongoose, { MongooseError } from "mongoose"
 import { ZodError } from "zod"
 import { MyError } from "../schemas/errors"
 import { logger } from "./logger"
 
 export const handleErrors = (
-  err: JsonWebTokenError | TokenExpiredError | Error | MongooseError | ZodError,
+  err:
+    | JsonWebTokenError
+    | TokenExpiredError
+    | Error
+    | MongooseError
+    | ZodError
+    | any,
   req: MyRequest,
   res: Response,
   next: NextFunction
@@ -33,6 +39,15 @@ export const handleErrors = (
     res.status(400).json({ ok: false, message: err.message })
     logger(err, "mongoose", req)
     return
+  }
+
+  if (err.code === 11000) {
+    logger(err, "mongodb", req)
+    const field = Object.keys(err.keyValue)[0]
+    return res.status(500).json({
+      ok: false,
+      message: `El valor '${err.keyValue[field]}' ya existe y debe ser único`,
+    })
   }
 
   if (err instanceof MyError) {
