@@ -35,7 +35,7 @@ export const login = async (
   }
 
   const token = jwt.sign(tokenPayload, process.env.JWT_SECRET_KEY as string)
-  console.log({ isProd: CONFIG.isProd })
+
   res.cookie("jwt", token, {
     //...... 1s    1m   1h   1d   6 meses
     maxAge: 1000 * 60 * 60 * 24 * 180,

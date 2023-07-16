@@ -9,7 +9,7 @@ export const productSchema = new Schema({
   },
   supplier_cost: { type: Number, required: true },
   iva: {
-    type: [Number, "El IVA debe ser de tipo número"],
+    type: Number, // Ojo que sin querer había puesto [Number, "Tiene que ser un número"] => no se puede esto!!
     default: 0.12,
     required: [true, "El IVA es requerido"],
   },
