@@ -40,7 +40,7 @@ export const login = async (
     //...... 1s    1m   1h   1d   6 meses
     maxAge: 1000 * 60 * 60 * 24 * 180,
     sameSite: "none",
-    secure: false, // con "true" no funcionaba en Safari o el navegador de Samsung
+    secure: true,
     httpOnly: CONFIG.isProd, // Sino cuando pedimos desde Thunder Client no se setea la cookie
   })
 
