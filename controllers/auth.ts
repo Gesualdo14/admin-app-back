@@ -68,14 +68,11 @@ export const generateCode = async (
 
   user.login_code = randomCode
   await user.save()
-  sendEmail({
+  const result = await sendEmail({
     to: email,
     subject: "Este es tu código: " + randomCode,
     html: "Código para ingresar: " + randomCode,
   })
-    .then((res) => console.log(res.message))
-    .catch((e) => {
-      logger(e, "email", req)
-    })
+  console.log(result.message)
   res.status(200).json({ ok: true, message: "Código enviado con éxito" })
 }
