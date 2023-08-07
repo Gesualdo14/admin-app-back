@@ -19,6 +19,9 @@ app.use(
   })
 )
 app.use("/api", routes)
+app.use("/health-check", (_, res) => {
+  res.status(200).send(process.env.FRONTEND_URL)
+})
 
 app.use(handleErrors)
 
