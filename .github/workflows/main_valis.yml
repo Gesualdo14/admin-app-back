@@ -21,9 +21,10 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: yarn install
+      - name: yarn install, build
         run: |
           yarn install
+          yarn build --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
